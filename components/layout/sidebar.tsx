@@ -9,6 +9,7 @@ import {
   Settings,
   LogOut,
   Store,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -33,18 +34,30 @@ const NAV_LINKS: NavLink[] = [
   { label: "إعدادات البوت", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+export function Sidebar({
+  className,
+  onNavigate,
+}: {
+  className?: string;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   const router = useRouter();
 
   const logout = () => {
+    onNavigate?.();
     document.cookie = `${AUTH_COOKIE}=; path=/; max-age=0`;
     router.replace("/login");
     router.refresh();
   };
 
   return (
-    <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-l border-sidebar-border bg-sidebar">
+    <aside
+      className={cn(
+        "flex h-screen w-64 shrink-0 flex-col border-l border-sidebar-border bg-sidebar",
+        className
+      )}
+    >
       {/* Branding */}
       <div className="flex items-center gap-3 px-5 py-6">
         <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
@@ -54,6 +67,15 @@ export function Sidebar() {
           <p className="text-base font-bold text-sidebar-foreground">متجري</p>
           <p className="text-xs text-muted-foreground">SmartLink</p>
         </div>
+        {/* Close button — mobile drawer only */}
+        <button
+          type="button"
+          onClick={onNavigate}
+          aria-label="إغلاق القائمة"
+          className="mr-auto flex size-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary lg:hidden"
+        >
+          <X className="size-5" />
+        </button>
       </div>
 
       {/* Navigation */}
@@ -68,6 +90,7 @@ export function Sidebar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={onNavigate}
               className={cn(
                 "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                 active

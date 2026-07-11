@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, MessageSquare, Package, Sparkles } from "lucide-react";
+import { Bell, Search, MessageSquare, Package, Sparkles, Menu } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,11 +46,22 @@ const NOTIFICATIONS: Notification[] = [
   },
 ];
 
-export function Header() {
+export function Header({ onMenuClick }: { onMenuClick?: () => void }) {
   const unreadCount = NOTIFICATIONS.filter((n) => n.unread).length;
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-card/80 px-6 backdrop-blur-md">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-2 border-b border-border bg-card/80 px-4 backdrop-blur-md sm:gap-4 sm:px-6">
+      {/* Menu toggle — mobile only */}
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label="فتح القائمة"
+        onClick={onMenuClick}
+        className="shrink-0 text-muted-foreground hover:text-foreground lg:hidden"
+      >
+        <Menu className="size-5" />
+      </Button>
+
       {/* Central search */}
       <div className="relative mx-auto w-full max-w-xl">
         <Search className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

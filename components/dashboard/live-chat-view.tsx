@@ -14,6 +14,7 @@ import {
   Bot,
   Check,
   CheckCheck,
+  ArrowRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -46,6 +47,13 @@ export function LiveChatView() {
   const [activeId, setActiveId] = useState(CONVERSATIONS[0].id);
   const [manual, setManual] = useState(false);
   const [draft, setDraft] = useState("");
+  // On mobile only one pane fits at a time: the list, or the open chat.
+  const [mobilePane, setMobilePane] = useState<"list" | "chat">("list");
+
+  const openConversation = (id: string) => {
+    setActiveId(id);
+    setMobilePane("chat");
+  };
 
   const conversations = useMemo(() => {
     return CONVERSATIONS.filter((c) => {
@@ -62,7 +70,12 @@ export function LiveChatView() {
   return (
     <div className="grid h-[calc(100vh-7rem)] grid-cols-1 gap-4 lg:grid-cols-[300px_1fr] xl:grid-cols-[300px_1fr_300px]">
       {/* Column 1 (right) — conversation list */}
-      <Card className="flex min-h-0 flex-col gap-0 overflow-hidden p-0">
+      <Card
+        className={cn(
+          "min-h-0 flex-col gap-0 overflow-hidden p-0 lg:flex",
+          mobilePane === "chat" ? "hidden" : "flex"
+        )}
+      >
         <div className="space-y-3 border-b border-border p-3">
           <div className="relative">
             <Search className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -98,7 +111,7 @@ export function LiveChatView() {
               key={c.id}
               conversation={c}
               active={c.id === activeId}
-              onSelect={() => setActiveId(c.id)}
+              onSelect={() => openConversation(c.id)}
             />
           ))}
           {conversations.length === 0 && (
@@ -110,9 +123,22 @@ export function LiveChatView() {
       </Card>
 
       {/* Column 2 (center) — active chat */}
-      <Card className="flex min-h-0 flex-col gap-0 overflow-hidden p-0">
+      <Card
+        className={cn(
+          "min-h-0 flex-col gap-0 overflow-hidden p-0 lg:flex",
+          mobilePane === "list" ? "hidden" : "flex"
+        )}
+      >
         {/* Chat header */}
         <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+          <button
+            type="button"
+            onClick={() => setMobilePane("list")}
+            aria-label="رجوع للمحادثات"
+            className="-mr-1 flex size-8 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary lg:hidden"
+          >
+            <ArrowRight className="size-5" />
+          </button>
           <Avatar className="size-10">
             <AvatarFallback className="bg-secondary text-xs">
               {initials(active.name)}
