@@ -268,6 +268,36 @@
   animation: flame 1.4s ease-in-out infinite;
 }
 
+/* Auth branding — bot reply entrance + typing indicator dots */
+@keyframes bot-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-bot-in {
+  animation: bot-in 0.5s ease both;
+}
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+.animate-typing {
+  animation: typing-dot 1.2s infinite;
+}
+
 /* WhatsApp doodle backdrop for the simulator/chat canvas */
 .wa-canvas {
   background-color: #eae6df;

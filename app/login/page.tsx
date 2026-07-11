@@ -3,21 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Lock, User, LogIn, AlertCircle } from "lucide-react";
-import { Brand } from "@/components/auth/brand";
+import { AlertCircle } from "lucide-react";
+import { AuthLayout } from "@/components/auth/auth-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  AUTH_COOKIE,
-  DEMO_USERNAME,
-  DEMO_PASSWORD,
-} from "@/lib/auth";
+import { Checkbox } from "@/components/ui/checkbox";
+import { AUTH_COOKIE, DEMO_USERNAME, DEMO_PASSWORD } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,8 +25,11 @@ export default function LoginPage() {
 
     if (username.trim() === DEMO_USERNAME && password === DEMO_PASSWORD) {
       setLoading(true);
-      // Demo session — persists for a day. Swap for a real token later.
-      document.cookie = `${AUTH_COOKIE}=1; path=/; max-age=${60 * 60 * 24}`;
+      // Demo session — "remember me" persists for a day, otherwise it's a
+      // session cookie. Swap for a real token later.
+      document.cookie = remember
+        ? `${AUTH_COOKIE}=1; path=/; max-age=${60 * 60 * 24}`
+        : `${AUTH_COOKIE}=1; path=/`;
       router.replace("/");
       router.refresh();
       return;
@@ -38,85 +39,82 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary/40 px-4 py-10">
-      <div className="w-full max-w-sm">
-        {/* Branding */}
-        <div className="mb-8 flex justify-center">
-          <Brand />
+    <AuthLayout>
+      <h1 className="text-2xl font-extrabold leading-snug sm:text-[26px]">
+        مرحباً بك مجدداً في سمارت لينك 👋
+      </h1>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        أدخل بياناتك لتسجيل الدخول ومتابعة أداء متجرك.
+      </p>
+
+      <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-5">
+        <div className="grid gap-2">
+          <Label htmlFor="email">البريد الإلكتروني</Label>
+          <Input
+            id="email"
+            dir="ltr"
+            className="text-right"
+            autoComplete="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="you@store.com"
+            aria-invalid={!!error}
+          />
         </div>
 
-        {/* Card */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
-          <div className="mb-6 text-center">
-            <h1 className="text-lg font-semibold">تسجيل الدخول</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              أدخل بياناتك للوصول إلى لوحة التحكم.
-            </p>
-          </div>
-
-          <form onSubmit={onSubmit} className="space-y-4">
-            <div className="grid gap-2">
-              <Label htmlFor="username">
-                <User className="size-4 text-muted-foreground" />
-                اسم المستخدم
-              </Label>
-              <Input
-                id="username"
-                autoComplete="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="admin"
-                aria-invalid={!!error}
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="password">
-                <Lock className="size-4 text-muted-foreground" />
-                كلمة المرور
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••"
-                aria-invalid={!!error}
-              />
-            </div>
-
-            {error && (
-              <p className="flex items-center gap-2 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
-                <AlertCircle className="size-4 shrink-0" />
-                {error}
-              </p>
-            )}
-
-            <Button type="submit" className="w-full" size="lg" disabled={loading}>
-              <LogIn className="size-4" />
-              {loading ? "جارٍ الدخول..." : "دخول"}
-            </Button>
-          </form>
-
-          {/* Demo hint — remove once real auth is wired. */}
-          <p className="mt-6 rounded-lg bg-secondary/60 px-3 py-2 text-center text-xs text-muted-foreground">
-            بيانات تجريبية: <span className="font-medium text-foreground">admin</span>
-            {" / "}
-            <span className="font-medium text-foreground">admin</span>
-          </p>
-
-          <p className="mt-4 text-center text-sm text-muted-foreground">
-            ليس لديك حساب؟{" "}
+        <div className="grid gap-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">كلمة المرور</Label>
             <Link
-              href="/signup"
-              className="font-medium text-primary hover:underline"
+              href="#"
+              className="text-xs font-semibold text-primary hover:underline"
             >
-              إنشاء حساب جديد
+              هل نسيت كلمة المرور؟
             </Link>
-          </p>
+          </div>
+          <Input
+            id="password"
+            type="password"
+            dir="ltr"
+            className="text-right"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            aria-invalid={!!error}
+          />
         </div>
-      </div>
-    </div>
+
+        {error && (
+          <p className="flex items-center gap-2 rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+            <AlertCircle className="size-4 shrink-0" />
+            {error}
+          </p>
+        )}
+
+        <label className="flex cursor-pointer items-center gap-2.5 text-sm text-foreground/80">
+          <Checkbox checked={remember} onCheckedChange={setRemember} />
+          تذكرني على هذا الجهاز
+        </label>
+
+        <Button type="submit" size="lg" className="w-full" disabled={loading}>
+          {loading ? "جارٍ الدخول..." : "تسجيل الدخول"}
+        </Button>
+      </form>
+
+      {/* Demo hint — remove once real auth is wired. */}
+      <p className="mt-5 rounded-lg bg-secondary/60 px-3 py-2 text-center text-xs text-muted-foreground">
+        بيانات تجريبية: <span className="font-medium text-foreground">admin</span>
+        {" / "}
+        <span className="font-medium text-foreground">admin</span>
+      </p>
+
+      <p className="mt-4 text-center text-sm text-muted-foreground">
+        ليس لديك حساب؟{" "}
+        <Link href="/signup" className="font-bold text-primary hover:underline">
+          إنشاء حساب جديد
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }
