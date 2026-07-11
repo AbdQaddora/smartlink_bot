@@ -36,7 +36,7 @@ export function HotLeadsTable() {
           <Badge variant="destructive">{HOT_LEADS.length}</Badge>
         </div>
       </CardHeader>
-      <CardContent className="space-y-2">
+      <CardContent className="stagger space-y-2">
         {HOT_LEADS.map((lead) => (
           <div
             key={lead.id}

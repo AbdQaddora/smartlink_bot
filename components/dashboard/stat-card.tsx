@@ -8,7 +8,7 @@ export function StatCard({ stat }: { stat: StatCardData }) {
   const TrendIcon = stat.trend === "up" ? ArrowUpRight : ArrowDownRight;
 
   return (
-    <Card className="gap-0 p-5">
+    <Card className="gap-0 p-5 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-md">
       <div className="flex items-start justify-between">
         <div
           className={cn(

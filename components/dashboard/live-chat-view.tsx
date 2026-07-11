@@ -68,7 +68,7 @@ export function LiveChatView() {
     CONVERSATIONS.find((c) => c.id === activeId) ?? CONVERSATIONS[0];
 
   return (
-    <div className="grid h-[calc(100vh-7rem)] grid-cols-1 gap-4 lg:grid-cols-[300px_1fr] xl:grid-cols-[300px_1fr_300px]">
+    <div className="animate-fade-in grid h-[calc(100vh-7rem)] grid-cols-1 gap-4 lg:grid-cols-[300px_1fr] xl:grid-cols-[300px_1fr_300px]">
       {/* Column 1 (right) — conversation list */}
       <Card
         className={cn(

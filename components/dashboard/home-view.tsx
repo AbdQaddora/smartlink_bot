@@ -20,7 +20,7 @@ export function HomeView() {
   const [period, setPeriod] = useState<Period>("week");
 
   return (
-    <div className="space-y-6">
+    <div className="animate-fade-in space-y-6">
       <PageHeading
         title="نظرة عامة"
         subtitle="ملخّص أداء متجرك وبوت المبيعات"
@@ -37,7 +37,7 @@ export function HomeView() {
       />
 
       {/* Stat cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {STAT_CARDS.map((stat) => (
           <StatCard key={stat.id} stat={stat} />
         ))}

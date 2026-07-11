@@ -13,7 +13,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
   return (
-    <Card className="group gap-0 overflow-hidden p-0">
+    <Card className="group gap-0 overflow-hidden p-0 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-md">
       <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
         <Image
           src={product.image}

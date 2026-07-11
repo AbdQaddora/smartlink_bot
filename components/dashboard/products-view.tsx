@@ -39,7 +39,7 @@ export function ProductsView() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="animate-fade-in space-y-6">
       <PageHeading
         title="المنتجات"
         subtitle={`${PRODUCTS.length} منتج متاح للبوت`}
@@ -84,7 +84,7 @@ export function ProductsView() {
       />
 
       {view === "grid" ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {PRODUCTS.map((product) => (
             <ProductCard
               key={product.id}
@@ -95,7 +95,7 @@ export function ProductsView() {
           ))}
         </div>
       ) : (
-        <Card className="p-0">
+        <Card className="animate-fade-up p-0">
           <Table>
             <TableHeader>
               <TableRow>

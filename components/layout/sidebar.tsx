@@ -79,7 +79,7 @@ export function Sidebar({
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-3">
+      <nav className="stagger flex-1 space-y-1 px-3">
         {NAV_LINKS.map((link) => {
           const active =
             link.href === "/"
@@ -100,7 +100,7 @@ export function Sidebar({
             >
               <Icon
                 className={cn(
-                  "size-5 shrink-0 transition-colors",
+                  "size-5 shrink-0 transition-all group-hover:scale-110",
                   active
                     ? "text-primary"
                     : "text-muted-foreground group-hover:text-foreground"

@@ -254,6 +254,80 @@
   animation: flame 1.4s ease-in-out infinite;
 }
 
+/*
+  Dashboard entrance motion — subtle and professional. A page-level opacity
+  fade, plus a translate-up entrance for individual elements and a cascading
+  stagger for grids/lists. All disabled under prefers-reduced-motion.
+*/
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.4s ease both;
+}
+.animate-fade-up {
+  /* `backwards` (not `both`) so the element's transform is free again for
+     hover transitions once the entrance settles. */
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+/* Cascade direct children as they mount. */
+.stagger > * {
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.stagger > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.stagger > *:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.stagger > *:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.stagger > *:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.stagger > *:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.stagger > *:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.stagger > *:nth-child(7) {
+  animation-delay: 0.35s;
+}
+.stagger > *:nth-child(8) {
+  animation-delay: 0.4s;
+}
+.stagger > *:nth-child(9) {
+  animation-delay: 0.45s;
+}
+.stagger > *:nth-child(n + 10) {
+  animation-delay: 0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-up,
+  .stagger > * {
+    animation: none;
+  }
+}
+
 /* Auth branding — bot reply entrance + typing indicator dots */
 @keyframes bot-in {
   0% {

@@ -27,7 +27,7 @@ export function SettingsView() {
   const showSaveBar = tab !== "connection";
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="animate-fade-in space-y-6 pb-24">
       <PageHeading
         title="إعدادات البوت"
         subtitle="اضبط سلوك البوت وبيانات متجرك وجرّب النتيجة مباشرة."
@@ -59,7 +59,8 @@ export function SettingsView() {
 
       {/* Split: settings panels (right) + sticky simulator (left) */}
       <div className="grid gap-6 lg:grid-cols-[1fr_400px]">
-        <div className="min-w-0 space-y-6">
+        {/* key re-triggers the entrance each time the active tab changes. */}
+        <div key={tab} className="animate-fade-up min-w-0 space-y-6">
           {tab === "store" && <StoreInfoPanel />}
           {tab === "behavior" && <BotBehaviorPanel />}
           {tab === "policies" && <PoliciesPanel />}
