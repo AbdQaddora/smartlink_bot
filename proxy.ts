@@ -3,20 +3,30 @@ import type { NextRequest } from "next/server";
 import { AUTH_COOKIE } from "@/lib/auth";
 
 /**
+ * Public routes reachable without a session — the whole pre-dashboard
+ * flow (login, signup, and the onboarding wizard that runs right after
+ * signup and only sets the session cookie on its final step).
+ */
+const PUBLIC_ROUTES = new Set(["/login", "/signup", "/onboarding"]);
+
+/**
  * Simple demo auth gate: unauthenticated visitors are sent to /login,
- * and an already-logged-in visitor hitting /login is bounced to the app.
+ * and an already-logged-in visitor hitting an auth screen is bounced to
+ * the app.
  */
 export function proxy(req: NextRequest) {
   const isAuthed = req.cookies.get(AUTH_COOKIE)?.value === "1";
-  const isLogin = req.nextUrl.pathname === "/login";
+  const { pathname } = req.nextUrl;
+  const isPublic = PUBLIC_ROUTES.has(pathname);
 
-  if (!isAuthed && !isLogin) {
+  if (!isAuthed && !isPublic) {
     const url = req.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (isAuthed && isLogin) {
+  // An authenticated user has no business on the login/signup screens.
+  if (isAuthed && (pathname === "/login" || pathname === "/signup")) {
     const url = req.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
