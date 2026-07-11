@@ -5,7 +5,12 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const Select = SelectPrimitive.Root;
+// Radix reads direction from context (defaulting to LTR), not the DOM `dir`
+// attribute — so the portaled dropdown renders LTR unless told otherwise.
+// The whole app is RTL, so default the root here (callers can still override).
+function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) {
+  return <SelectPrimitive.Root dir="rtl" {...props} />;
+}
 const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
 
