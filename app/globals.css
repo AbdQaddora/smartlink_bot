@@ -1,26 +1,255 @@
 @import "tailwindcss";
 
+/*
+  Jannat typography
+  ------------------------------------------------------------------
+  Jannat is a licensed font, so it isn't bundled here. Drop the woff2
+  files into /public/fonts/jannat/ and uncomment the @font-face rules
+  below — the whole UI upgrades automatically because "Jannat" is the
+  first family in --font-sans. Until then the stack falls back to the
+  system Arabic faces (Tahoma / Segoe UI) which render RTL cleanly.
+
+  @font-face {
+    font-family: "Jannat";
+    src: url("/fonts/jannat/Jannat-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: "Jannat";
+    src: url("/fonts/jannat/Jannat-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-display: swap;
+  }
+*/
+
+/*
+  SmartLink — Design tokens
+  ------------------------------------------------------------------
+  A single source of truth for the whole dashboard. Colours follow a
+  WhatsApp-commerce aesthetic: an emerald brand accent, warm-amber
+  "pending" signals and a red destructive channel. Everything is wired
+  through shadcn-compatible CSS variables so primitives in
+  components/ui/* stay themeable.
+*/
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 0.75rem;
+
+  --background: #f6f8fa;
+  --foreground: #0f172a;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Emerald brand */
+  --primary: #16a34a;
+  --primary-foreground: #ffffff;
+
+  --secondary: #eef2f6;
+  --secondary-foreground: #0f172a;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --accent: #ecfdf5;
+  --accent-foreground: #166534;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+
+  --warning: #f59e0b;
+  --warning-foreground: #7c2d12;
+
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #16a34a;
+
+  /* Sidebar surface (right panel in RTL) */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #334155;
+  --sidebar-primary: #16a34a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ecfdf5;
+  --sidebar-accent-foreground: #166534;
+  --sidebar-border: #eef2f6;
+
+  /* Chat bubble surfaces */
+  --chat-customer: #ffffff;
+  --chat-bot: #eef2ff;
+  --chat-bot-foreground: #1e293b;
+
+  /* Chart accents */
+  --chart-1: #16a34a;
+  --chart-2: #f59e0b;
+  --chart-3: #6366f1;
+  --chart-4: #06b6d4;
+  --chart-5: #ec4899;
+}
+
+.dark {
+  --background: #0b1120;
+  --foreground: #e2e8f0;
+
+  --card: #0f172a;
+  --card-foreground: #e2e8f0;
+
+  --popover: #0f172a;
+  --popover-foreground: #e2e8f0;
+
+  --primary: #22c55e;
+  --primary-foreground: #052e16;
+
+  --secondary: #1e293b;
+  --secondary-foreground: #e2e8f0;
+
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+
+  --accent: #14311f;
+  --accent-foreground: #86efac;
+
+  --destructive: #f87171;
+  --destructive-foreground: #450a0a;
+
+  --success: #22c55e;
+  --success-foreground: #052e16;
+
+  --warning: #fbbf24;
+  --warning-foreground: #451a03;
+
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #22c55e;
+
+  --sidebar: #0f172a;
+  --sidebar-foreground: #cbd5e1;
+  --sidebar-primary: #22c55e;
+  --sidebar-primary-foreground: #052e16;
+  --sidebar-accent: #14311f;
+  --sidebar-accent-foreground: #86efac;
+  --sidebar-border: #1e293b;
+
+  --chat-customer: #0f172a;
+  --chat-bot: #1e293b;
+  --chat-bot-foreground: #cbd5e1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+
+  --color-chat-customer: var(--chat-customer);
+  --color-chat-bot: var(--chat-bot);
+  --color-chat-bot-foreground: var(--chat-bot-foreground);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --font-sans: "Jannat", "Tajawal", "Segoe UI", Tahoma, "Helvetica Neue",
+    ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Thin, unobtrusive scrollbars for the chat/product panes */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 9999px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Fire flicker used by "hot conversation" indicators */
+@keyframes flame {
+  0%,
+  100% {
+    transform: scale(1) rotate(-2deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.12) rotate(2deg);
+    opacity: 1;
+  }
+}
+.animate-flame {
+  animation: flame 1.4s ease-in-out infinite;
+}
+
+/* WhatsApp doodle backdrop for the simulator/chat canvas */
+.wa-canvas {
+  background-color: #eae6df;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.dark .wa-canvas {
+  background-color: #0b141a;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
