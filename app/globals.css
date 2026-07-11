@@ -1,26 +1,12 @@
 @import "tailwindcss";
 
 /*
-  Jannat typography
+  Tajawal typography
   ------------------------------------------------------------------
-  Jannat is a licensed font, so it isn't bundled here. Drop the woff2
-  files into /public/fonts/jannat/ and uncomment the @font-face rules
-  below — the whole UI upgrades automatically because "Jannat" is the
-  first family in --font-sans. Until then the stack falls back to the
-  system Arabic faces (Tahoma / Segoe UI) which render RTL cleanly.
-
-  @font-face {
-    font-family: "Jannat";
-    src: url("/fonts/jannat/Jannat-Regular.woff2") format("woff2");
-    font-weight: 400;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Jannat";
-    src: url("/fonts/jannat/Jannat-Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-display: swap;
-  }
+  Tajawal is loaded through next/font (see app/layout.tsx), which exposes
+  it as the --font-tajawal CSS variable and self-hosts the files. It's the
+  first family in --font-sans below; the system Arabic faces (Segoe UI /
+  Tahoma) remain as a fallback while the webfont streams in.
 */
 
 /*
@@ -186,7 +172,7 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
-  --font-sans: "Jannat", "Tajawal", "Segoe UI", Tahoma, "Helvetica Neue",
+  --font-sans: var(--font-tajawal), "Segoe UI", Tahoma, "Helvetica Neue",
     ui-sans-serif, system-ui, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);

@@ -13,7 +13,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 export default function SignupPage() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
-  const [storeName, setStoreName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
@@ -24,7 +23,7 @@ export default function SignupPage() {
     e.preventDefault();
     setError("");
 
-    if (!fullName.trim() || !storeName.trim() || !email.trim() || !password) {
+    if (!fullName.trim() || !email.trim() || !password) {
       setError("يرجى تعبئة جميع الحقول.");
       return;
     }
@@ -60,17 +59,6 @@ export default function SignupPage() {
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             placeholder="مثال: أحمد العتيبي"
-            aria-invalid={!!error}
-          />
-        </div>
-
-        <div className="grid gap-2">
-          <Label htmlFor="store-name">اسم المتجر</Label>
-          <Input
-            id="store-name"
-            value={storeName}
-            onChange={(e) => setStoreName(e.target.value)}
-            placeholder="مثال: متجر أناقة"
             aria-invalid={!!error}
           />
         </div>
