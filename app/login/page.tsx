@@ -13,8 +13,10 @@ import { AUTH_COOKIE, DEMO_USERNAME, DEMO_PASSWORD } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // Demo convenience — prefill the demo credentials so the login form is
+  // ready to submit. Remove once real auth is wired.
+  const [username, setUsername] = useState(DEMO_USERNAME);
+  const [password, setPassword] = useState(DEMO_PASSWORD);
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
